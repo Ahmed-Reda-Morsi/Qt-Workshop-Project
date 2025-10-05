@@ -39,9 +39,19 @@ TaskManagerView::TaskManagerView(QWidget *parent)
         if(has_election){
             ui->edit_task->setEnabled(has_election);
             ui->delete_task->setEnabled(has_election);
-            auto current_task_status= ui->TaskTable->item(ui->TaskTable->currentRow(),TASK_DONE_STAUS_INDEX);
-            if (current_task_status)
-            {    current_task_status->setFlags(current_task_status->flags() | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+
+            for (int index=0;index < ui->TaskTable->rowCount();index++)
+            {
+                auto current_task_status= ui->TaskTable->item(index,TASK_DONE_STAUS_INDEX);
+                if (index == ui->TaskTable->currentRow())
+                {
+                    current_task_status->setFlags(current_task_status->flags() | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
+                }
+                else
+                {
+                    current_task_status->setFlags(current_task_status->flags() & ~Qt::ItemIsEnabled);
+                }
+
                 ui->TaskTable->viewport()->update();
             }
         }
@@ -171,9 +181,9 @@ void TaskManagerView::task_status_changed()
 
         if (current_task_status->checkState() !=saved_status)
         {
-              m_controller.task_status_changed(row);
+            m_controller.task_status_changed(row);
         }
-      
+
     }
 
 }
