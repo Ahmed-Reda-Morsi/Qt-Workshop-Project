@@ -9,7 +9,7 @@ TaskController::TaskController(QObject *parent)
 }
 TaskController::~TaskController()
 {
-    save_tasks();
+    //save_tasks();
 }
 
 void TaskController::load_tasks()
@@ -32,13 +32,17 @@ void TaskController::edit_task(int index, const TaskInfo &task)
 {
     if (index >= 0 && index < m_tasks.size()) {
         m_tasks.replace(index,task);
+        
     }
+    save_tasks();
+
 }
 void TaskController::delete_task(int index)
 {
     if (index >= 0 && index < m_tasks.size()) {
         m_tasks.removeAt(index);
     }
+    save_tasks();
 }
 
 void TaskController::task_status_changed(int index)
@@ -46,6 +50,7 @@ void TaskController::task_status_changed(int index)
     if (index >= 0 && index < m_tasks.size()) {
         m_tasks[index].status = !m_tasks[index].status;
     }
+    save_tasks();
 }
 
 const QVector<TaskInfo>& TaskController::tasks() const

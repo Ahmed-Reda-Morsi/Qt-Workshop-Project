@@ -8,6 +8,7 @@ TaskDialog::TaskDialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->task_date_line->setDate(QDate::currentDate());
+    ui->task_date_line->setMinimumDate(QDate::currentDate());
     ui->ok_button->setDisabled(true);
 
 

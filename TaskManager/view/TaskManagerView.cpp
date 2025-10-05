@@ -34,16 +34,16 @@ TaskManagerView::TaskManagerView(QWidget *parent)
     ui->edit_task->setDisabled(true);
     ui->delete_task->setDisabled(true);
 
-    connect(ui->TaskTable, &QTableWidget::itemSelectionChanged, this, [this]() {
+    connect(ui->TaskTable, &QTableWidget::itemPressed, this, [this]() {
         bool has_election = ui->TaskTable->currentRow() >= 0;
         if(has_election){
             ui->edit_task->setEnabled(has_election);
             ui->delete_task->setEnabled(has_election);
 
-            for (int index=0;index < ui->TaskTable->rowCount();index++)
+            for (int row=0;row < ui->TaskTable->rowCount();row++)
             {
-                auto current_task_status= ui->TaskTable->item(index,TASK_DONE_STAUS_INDEX);
-                if (index == ui->TaskTable->currentRow())
+                auto current_task_status= ui->TaskTable->item(row,TASK_DONE_STAUS_INDEX);
+                if (has_election &&row == ui->TaskTable->currentRow())
                 {
                     current_task_status->setFlags(current_task_status->flags() | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable );
                 }
@@ -108,8 +108,8 @@ void TaskManagerView::edit_task()
             TaskInfo task;
             task.name = dialog.get_task_name();
             task.due_date = dialog.get_task_due_date();
-            task.status =false;
-
+            task.status=current_task.status;
+            edit_task_row(row,task);
             m_controller.edit_task(row,task);
         }
 
@@ -169,6 +169,31 @@ void TaskManagerView::add_new_task_row(TaskInfo &task){
 
 }
 
+void TaskManagerView::edit_task_row(int row, TaskInfo &task){
+
+    // Task name
+    QTableWidgetItem *name_item = new QTableWidgetItem(task.name);
+    ui->TaskTable->setItem(row, TASK_NAME_INDEX, name_item);
+
+    // Due date
+    QTableWidgetItem *date_item = new QTableWidgetItem(task.due_date.toString());
+    ui->TaskTable->setItem(row, TASK_DUE_DATE_INDEX, date_item);
+
+    // Done status
+    QTableWidgetItem *status_item = new QTableWidgetItem();
+    if (task.status==true)
+    {
+        status_item->setCheckState(Qt::Checked);
+    }
+    else
+    {
+        status_item->setCheckState(Qt::Unchecked);
+    }
+    status_item->setFlags(status_item->flags() | Qt::ItemIsUserCheckable);
+    ui->TaskTable->setItem(row, TASK_DONE_STAUS_INDEX, status_item);
+
+}
+
 
 void TaskManagerView::task_status_changed()
 {
@@ -187,3 +212,4 @@ void TaskManagerView::task_status_changed()
     }
 
 }
+

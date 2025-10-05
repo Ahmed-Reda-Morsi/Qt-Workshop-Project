@@ -36,7 +36,7 @@ bool TaskModel::save_tasks(const QVector<TaskInfo> &tasks) const
         return false;
     }
 
-    qDebug() << "Saved" << tasks.size() << "tasks to" << m_filePath;
+    qDebug() << "Changes Saved";
     return true;
 }
 

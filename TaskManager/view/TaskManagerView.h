@@ -20,6 +20,7 @@ private slots:
     void delete_task();
     void task_status_changed();
     void update_task_manager_table();
+    void edit_task_row(int row, TaskInfo &task);
     void add_new_task_row(TaskInfo &task);
 private:
     TaskController m_controller;
