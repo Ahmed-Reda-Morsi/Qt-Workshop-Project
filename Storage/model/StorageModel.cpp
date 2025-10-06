@@ -1,10 +1,10 @@
-#include "TaskModel.h"
+#include "StorageModel.h"
 #include <QFileInfo>
 #include <QDir>
 #include <QDebug>
 #include <QCoreApplication>
 
-TaskModel::TaskModel(QObject *parent)
+StorageModel::StorageModel(QObject *parent)
     : QObject(parent)
 {
     QString baseDir = QCoreApplication::applicationDirPath();
@@ -12,7 +12,7 @@ TaskModel::TaskModel(QObject *parent)
 
 }
 
-bool TaskModel::save_tasks(const QVector<TaskInfo> &tasks) const
+bool StorageModel::save_tasks(const QVector<TaskInfo> &tasks) const
 {
     QSettings settings(m_filePath, QSettings::IniFormat);
     settings.clear(); // Clear previous structure
@@ -40,7 +40,7 @@ bool TaskModel::save_tasks(const QVector<TaskInfo> &tasks) const
     return true;
 }
 
-QVector<TaskInfo> TaskModel::load_tasks() const
+QVector<TaskInfo> StorageModel::load_tasks() const
 {
     QVector<TaskInfo> loaded_tasks;
     if (!QFileInfo::exists(m_filePath))

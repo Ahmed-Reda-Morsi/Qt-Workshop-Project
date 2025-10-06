@@ -1,5 +1,5 @@
-#ifndef TASKMODEL_H
-#define TASKMODEL_H
+#ifndef STORAGEMODEL_H
+#define STORAGEMODEL_H
 
 #include <QObject>
 #include <QVector>
@@ -13,12 +13,12 @@ struct TaskInfo {
     bool status;
 };
 
-class TaskModel : public QObject
+class StorageModel : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit TaskModel(QObject *parent = nullptr);
+    explicit StorageModel(QObject *parent = nullptr);
 
     bool save_tasks(const QVector<TaskInfo> &tasks) const;
     QVector<TaskInfo> load_tasks() const;
@@ -27,4 +27,4 @@ private:
     QString m_filePath;
 };
 
-#endif // TASKMODEL_H
+#endif // STORAGEMODEL_H

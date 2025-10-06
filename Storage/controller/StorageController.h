@@ -1,17 +1,17 @@
-#ifndef TASKCONTROLLER_H
-#define TASKCONTROLLER_H
+#ifndef STORAGECONTROLLER_H
+#define STORAGECONTROLLER_H
 
-#include "StorageController.h"
 #include <QObject>
 #include <QVector>
 #include <QString>
+#include "StorageModel.h"
 
-class TaskController : public QObject
+class StorageController : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit TaskController(QObject *parent = nullptr);
+    explicit StorageController(QObject *parent = nullptr);
 
     void load_tasks();
     void save_tasks() const;
@@ -22,9 +22,11 @@ public:
     void task_status_changed(int index);
 
     const QVector<TaskInfo>& tasks() const;
-    
+
 private:
-    StorageController m_storageController;
+    QVector<TaskInfo> m_tasks;
+    StorageModel m_model;
+
 };
 
-#endif // TASKCONTROLLER_H
+#endif // STORAGECONTROLLER_H
